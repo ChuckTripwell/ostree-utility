@@ -40,6 +40,8 @@ RUN cp /usr/lib/libostree/* /etc/grub.d \
 # Podman: native Overlay Diff for optimal Podman performance
 RUN echo "options overlay metacopy=off redirect_dir=off" > /etc/modprobe.d/disable-overlay-redirect-dir.conf
 
+RUN echo -e "[immutablearch]\nSigLevel = Optional TrustAll\nServer = https://immutablearch.github.io/packages/aur-repo/" \ >> /etc/pacman.conf
+
 ## |
 ## | CUSTOMIZE
 ## |
@@ -64,3 +66,7 @@ RUN echo "root:ostree" | chpasswd
 RUN pacman --noconfirm -S openssh \
  && systemctl enable sshd \
  && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+RUN echo -e "[immutablearch]\nSigLevel = Optional TrustAll\nServer = https://immutablearch.github.io/packages/aur-repo/" \ >> /etc/pacman.conf
+
+RUN pacman -Sy --noconfirm bootc-git
